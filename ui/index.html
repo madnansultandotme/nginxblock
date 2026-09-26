@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NginxBlock Studio</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="NginxBlock home"><span class="brand-mark">N</span><span>NginxBlock <small>STUDIO</small></span></a>
+    <div class="top-actions"><span id="status" class="status"><i></i> Ready</span><button id="copy" class="button ghost" type="button">Copy config</button><button id="download" class="button primary" type="button">Download .conf</button></div>
+  </header>
+  <main class="workspace">
+    <aside class="sidebar">
+      <div class="intro"><p class="eyebrow">Configuration workspace</p><h1>Shape your edge.</h1><p>Build a clean NGINX HTTP fragment from a model you can inspect and version.</p></div>
+      <nav class="steps" aria-label="Workspace sections">
+        <a class="step active" href="#model"><span>01</span><strong>Model</strong><small>Inputs & routes</small></a>
+        <a class="step" href="#preview"><span>02</span><strong>Preview</strong><small>Generated config</small></a>
+        <a class="step" href="#diagnostics"><span>03</span><strong>Review</strong><small>Advisories</small></a>
+      </nav>
+      <div class="sidebar-note"><span class="pulse"></span><div><strong>Local only</strong><p>Your configuration stays in this browser session.</p></div></div>
+    </aside>
+    <section class="content">
+      <div class="content-head"><div><p class="eyebrow">NginxBlock / Builder</p><h2>Configuration model</h2></div><button id="reset" class="button ghost" type="button">Reset example</button></div>
+      <div class="metrics"><div><span>Target</span><strong id="target">example.com</strong></div><div><span>Protocol</span><strong id="protocol">HTTPS</strong></div><div><span>Routes</span><strong id="route-count">2</strong></div><div><span>Upstreams</span><strong id="upstream-count">1</strong></div></div>
+      <div id="model" class="panel model-panel"><div class="panel-title"><div><span class="panel-index">01</span><h3>JSON model</h3></div><span class="hint">Edit and generate instantly</span></div><textarea id="model-input" spellcheck="false" aria-label="Nginx configuration JSON"></textarea><div class="panel-footer"><span id="model-message">Ready to generate</span><button id="generate" class="button primary" type="button">Generate config <span>Ctrl + Enter</span></button></div></div>
+      <div id="preview" class="panel output-panel"><div class="panel-title"><div><span class="panel-index">02</span><h3>Generated NGINX</h3></div><span id="output-size" class="hint">0 lines</span></div><pre id="output"><code>Generated configuration will appear here.</code></pre></div>
+      <div id="diagnostics" class="panel diagnostics-panel"><div class="panel-title"><div><span class="panel-index">03</span><h3>Review</h3></div><span id="diagnostic-count" class="hint">No advisories</span></div><div id="diagnostics-list" class="diagnostics-list"><div class="empty"><span>✓</span><p>Everything looks clear.</p></div></div></div>
+      <footer><span>NginxBlock Studio</span><span>HTTP context generator · Node 20+</span></footer>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
