@@ -2,8 +2,8 @@ name: Publish package
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -13,6 +13,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: nginxblock
 
     steps:
       - name: Check out repository
@@ -36,5 +37,19 @@ jobs:
       - name: Verify package contents
         run: npm run pack:check
 
+      - name: Check whether this version is already published
+        id: version
+        shell: bash
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "nginxblock@$version" version >/dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "nginxblock@$version is already published; skipping."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+            echo "nginxblock@$version is not published; continuing."
+          fi
+
       - name: Publish to npm
+        if: steps.version.outputs.published == 'false'
         run: npm publish --provenance --access public
