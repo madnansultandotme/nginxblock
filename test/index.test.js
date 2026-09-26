@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {generate,explain} from '../src/index.js';
+import {generate,explain,validateConfig} from '../src/index.js';
 const fixture = JSON.parse(readFileSync(new URL('../examples/app.json',import.meta.url),'utf8'));
 test('generates coherent HTTP-context fragment', () => {
   const {config,diagnostics} = generate(fixture);
@@ -29,4 +29,11 @@ test('warns on sensitive caching and missing TLS', () => {
 test('rejects incompatible upstream options and differing rates', () => {
   assert.throws(() => generate({...fixture,upstreams:[{name:'a',strategy:'ip_hash',servers:[{address:'a:1',backup:true}]}]}),/incompatible/);
   assert.throws(() => generate({...fixture,routes:[{path:'/a',type:'proxy',target:'api',rateLimit:{rate:1}},{path:'/b',type:'proxy',target:'api',rateLimit:{rate:2}}]}),/one global rate/);
+});
+test('validates generated configuration structure', () => {
+  assert.deepEqual(validateConfig(generate(fixture).config),{valid:true,errors:[]});
+  const result = validateConfig('server {\n    location / {\n        proxy_pass http://api\n    }\n');
+  assert.equal(result.valid,false);
+  assert.match(result.errors.map(error => error.message).join(' '),/Directive must end/);
+  assert.match(result.errors.map(error => error.message).join(' '),/Unbalanced braces/);
 });

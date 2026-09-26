@@ -139,3 +139,5 @@ export function explain(model) {
     routes:model.routes.map(r => ({path:r.path,type:r.type,destination:r.type === 'proxy' ? r.target : r.root})),
     upstreams:(model.upstreams ?? []).map(u => ({name:u.name,strategy:u.strategy ?? 'round_robin',servers:u.servers.map(s => s.address)})), diagnostics};
 }
+
+export {validateConfig} from './config-validator.js';

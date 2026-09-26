@@ -4,6 +4,8 @@ A small npm package for generating NGINX HTTP-context fragments from a structure
 
 This package is a generator, not an arbitrary nginx.conf parser, deployment tool, certificate issuer, or substitute for nginx -t. Generated fragments belong inside an existing nginx http block or a file included from it. Certificate files, static roots, and the cache directory must exist and be accessible on the target host.
 
+Detailed documentation is available in [docs/README.md](docs/README.md), including the user guide and automatic npm publishing setup.
+
 ## Install
 
     npm install nginxblock
@@ -19,6 +21,7 @@ Open http://127.0.0.1:4173 in your browser to edit a model visually, preview gen
     nginxblock generate examples/app.json > site.conf
     nginxblock check examples/app.json
     nginxblock explain examples/app.json
+    nginxblock validate site.conf
 
 Generate with a third output path to create a file without overwriting an existing one. Diagnostics print to stderr. Check validates the model and prints advisories; it does not call NGINX. For actual syntax validation, include the generated fragment in a complete configuration on the target system and run nginx -t.
 
